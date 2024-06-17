@@ -10,6 +10,7 @@ services:
       - jenkins-data:/var/jenkins_home
     restart:
       always
+    privileged: true
     networks:
       dev:
   jenkins:
