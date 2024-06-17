@@ -10,8 +10,7 @@ services:
     group_add:
       - 999
     environment:
-      - DOCKER_CERT_PATH=/certs/client
-      - DOCKER_TLS_VERIFY=1
+      - DOCKER_TLS_VERIFY=0
       - JENKINS_OPTS="--prefix=/jenkinscicd"
     ports:
       - "8080:8080"
