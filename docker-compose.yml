@@ -25,7 +25,6 @@ services:
     environment:
       - DOCKER_HOST=unix:///var/run/docker.sock
       - DOCKER_CERT_PATH=/certs/client
-      - DOCKER_TLS_VERIFY=0
       - JENKINS_OPTS="--prefix=/jenkinscicd"
     ports:
       - "8080:8080"
