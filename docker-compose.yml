@@ -1,5 +1,20 @@
 name: jenkins_service
 services:
+  docker_dind:
+    image: docker:dind
+    container_name: jenkins_docker
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    volumes:
+      - jenkins-docker-certs:/certs/client
+      - jenkins-data:/var/jenkins_home
+    restart:
+      always
+    privileged: true
+    networks:
+      dev:
+        aliases:
+          - docker
   jenkins:
     build: .
     image: jenkins_build:v1
@@ -10,13 +25,15 @@ services:
     group_add:
       - 999
     environment:
-      - DOCKER_TLS_VERIFY=0
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
       - JENKINS_OPTS="--prefix=/jenkinscicd"
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
       - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
       - /var/run/docker.sock:/var/run/docker.sock
 
 networks:
